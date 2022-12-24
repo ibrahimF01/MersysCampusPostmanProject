@@ -1,0 +1,2002 @@
+{
+	"info": {
+		"_postman_id": "f5065784-c8c7-41c2-9f63-ca10c3eb2200",
+		"name": "Campus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23503026"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"sorry this is hidden\",\r\n  \"password\": \"sorry this is hidden\",\r\n  \"rememberMe\": \"true\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://demo.mersys.io/auth/login",
+					"protocol": "https",
+					"host": [
+						"demo",
+						"mersys",
+						"io"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of Country",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}countries/search",
+					"host": [
+						"{{CAMPUSURL}}countries"
+					],
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CountryADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var body=pm.response.json();\r",
+							"var id=body.id;\r",
+							"console.log(id);// kod doğruluk kontrolu\r",
+							"pm.collectionVariables.set(\"countryID\", id);// collection variable a set olacak\r",
+							"\r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"id\": null,\r\n\"name\": \"{{$randomCountry}} {{$randomInt}}\",\r\n\"code\": \"{{$randomCountryCode}} {{$randomInt}}\",\r\n\"translateName\": [],\r\n\"hasState\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}countries",
+					"host": [
+						"{{CAMPUSURL}}countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CountryADDNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{countryID}}\",\r\n  \"name\": \"İbrahim {{$randomInt}}\",\r\n  \"code\": \"Kod {{$randomInt}}\",\r\n  \"translateName\": [],\r\n  \"hasState\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}countries",
+					"host": [
+						"{{CAMPUSURL}}countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CountryEDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"contryName\", pm.response.name);\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{countryID}}\",\r\n  \"name\": \"İbrahim {{$randomInt}}\",\r\n  \"code\": \"Kod {{$randomInt}}\",\r\n  \"translateName\": [],\r\n  \"hasState\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}countries",
+					"host": [
+						"{{CAMPUSURL}}countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CountryDELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{CAMPUSURL}}countries/{{countryID}}",
+					"host": [
+						"{{CAMPUSURL}}countries"
+					],
+					"path": [
+						"{{countryID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CountryDELETENegativeTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{CAMPUSURL}}countries/{{countryID}}",
+					"host": [
+						"{{CAMPUSURL}}countries"
+					],
+					"path": [
+						"{{countryID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CountryEDITNegativeTest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{countryID}}\",\r\n  \"name\": \"{{contryName}}\",\r\n  \"code\": \"Kod {{$randomInt}}\",\r\n  \"translateName\": [],\r\n  \"hasState\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}countries",
+					"host": [
+						"{{CAMPUSURL}}countries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DocumetsTypeADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"var body=pm.response.json();\r",
+							"var id=body.id;\r",
+							"console.log(id);// kod doğruluk kontrolu\r",
+							"pm.collectionVariables.set(\"documentsID\", id);// collection variable a set olacak\r",
+							"//pm.collectionVariables.set(\"documentsName\", body.name);\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"description\": \"{{$randomWords}}\",\r\n  \"attachmentStages\": [\r\n    \"STUDENT_REGISTRATION\"\r\n  ],\r\n  \"active\": true,\r\n  \"required\": true,\r\n  \"useCamera\": false,\r\n  \"translateName\": [],\r\n  \"schoolId\": \"5fe07e4fb064ca29931236a5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}attachments",
+					"host": [
+						"{{CAMPUSURL}}attachments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DocumetsTypeADDNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{documentsID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"description\": \"{{$randomWords}}\",\r\n  \"attachmentStages\": [\r\n    \"STUDENT_REGISTRATION\"\r\n  ],\r\n  \"active\": true,\r\n  \"required\": true,\r\n  \"useCamera\": false,\r\n  \"translateName\": [],\r\n  \"schoolId\": \"5fe07e4fb064ca29931236a5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}attachments",
+					"host": [
+						"{{CAMPUSURL}}attachments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DocumetsTypeEDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{documentsID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"description\": \"{{$randomWords}}\",\r\n  \"attachmentStages\": [\r\n    \"STUDENT_REGISTRATION\"\r\n  ],\r\n  \"active\": true,\r\n  \"required\": true,\r\n  \"useCamera\": false,\r\n  \"translateName\": [],\r\n  \"schoolId\": \"5fe07e4fb064ca29931236a5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}attachments",
+					"host": [
+						"{{CAMPUSURL}}attachments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DocumetsTypeDELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}attachments/{{documentsID}}",
+					"host": [
+						"{{CAMPUSURL}}attachments"
+					],
+					"path": [
+						"{{documentsID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DocumetsTypeDELETENegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}attachments/{{documentsID}}",
+					"host": [
+						"{{CAMPUSURL}}attachments"
+					],
+					"path": [
+						"{{documentsID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DocumetsTypeEDITNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{documentsID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"description\": \"{{$randomWords}}\",\r\n  \"attachmentStages\": [\r\n    \"STUDENT_REGISTRATION\"\r\n  ],\r\n  \"active\": true,\r\n  \"required\": true,\r\n  \"useCamera\": false,\r\n  \"translateName\": [],\r\n  \"schoolId\": \"5fe07e4fb064ca29931236a5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}attachments",
+					"host": [
+						"{{CAMPUSURL}}attachments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BankADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"var body=pm.response.json();\r",
+							"var id=body.id;\r",
+							"console.log(id);\r",
+							"pm.collectionVariables.set(\"bankID\", id);\r",
+							"pm.collectionVariables.set(\"bankName\", body.name);\r",
+							"pm.collectionVariables.set(\"bankIban\", body.iban);\r",
+							"console.log(body.iban);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"iban\": \"tr23 4444 4444 4444 4{{$randomInt}} 44\",\r\n  \"integrationCode\": \"444\",\r\n  \"currency\": \"USD\",\r\n  \"active\": true,\r\n  \"schoolId\": \"6343bf893ed01f0dc03a509a\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}bank-accounts",
+					"host": [
+						"{{CAMPUSURL}}bank-accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BankADDNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{bankID}}\",\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"iban\": \"{{bankIban}}\",\r\n  \"integrationCode\": \"444\",\r\n  \"currency\": \"USD\",\r\n  \"active\": true,\r\n  \"schoolId\": \"6343bf893ed01f0dc03a509a\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}bank-accounts",
+					"host": [
+						"{{CAMPUSURL}}bank-accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BankEDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{bankID}}\",\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"iban\": \"{{bankIban}}\",\r\n  \"integrationCode\": \"444\",\r\n  \"currency\": \"USD\",\r\n  \"active\": true,\r\n  \"schoolId\": \"6343bf893ed01f0dc03a509a\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}bank-accounts",
+					"host": [
+						"{{CAMPUSURL}}bank-accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BankDELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}bank-accounts/{{bankID}}",
+					"host": [
+						"{{CAMPUSURL}}bank-accounts"
+					],
+					"path": [
+						"{{bankID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BankDELETENegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}bank-accounts/{{bankID}}",
+					"host": [
+						"{{CAMPUSURL}}bank-accounts"
+					],
+					"path": [
+						"{{bankID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BankEDITNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{bankID}}\",\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"iban\": \"{{bankIban}}\",\r\n  \"integrationCode\": \"444\",\r\n  \"currency\": \"USD\",\r\n  \"active\": true,\r\n  \"schoolId\": \"6343bf893ed01f0dc03a509a\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}bank-accounts",
+					"host": [
+						"{{CAMPUSURL}}bank-accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FieldADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"var body=pm.response.json();\r",
+							"var id=body.id;\r",
+							"console.log(id);// kod doğruluk kontrolu\r",
+							"pm.collectionVariables.set(\"fieldID\", id);\r",
+							"pm.collectionVariables.set(\"fieldName\", body.name);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"translateName\": [],\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"type\": \"STRING\",\r\n  \"children\": [],\r\n  \"systemField\": false,\r\n  \"systemFieldName\": null,\r\n  \"schoolId\": \"5fe07e4fb064ca29931236a5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}entity-field",
+					"host": [
+						"{{CAMPUSURL}}entity-field"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FieldADDNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{fieldID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"translateName\": [],\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"type\": \"STRING\",\r\n  \"children\": [],\r\n  \"systemField\": false,\r\n  \"systemFieldName\": null,\r\n  \"schoolId\": \"5fe07e4fb064ca29931236a5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}entity-field",
+					"host": [
+						"{{CAMPUSURL}}entity-field"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FieldEDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{fieldID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"translateName\": [],\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"type\": \"STRING\",\r\n  \"children\": [],\r\n  \"systemField\": false,\r\n  \"systemFieldName\": null,\r\n  \"schoolId\": \"5fe07e4fb064ca29931236a5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}entity-field",
+					"host": [
+						"{{CAMPUSURL}}entity-field"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FieldDELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}entity-field/{{fieldID}}",
+					"host": [
+						"{{CAMPUSURL}}entity-field"
+					],
+					"path": [
+						"{{fieldID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FieldDELETENegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}entity-field/{{fieldID}}",
+					"host": [
+						"{{CAMPUSURL}}entity-field"
+					],
+					"path": [
+						"{{fieldID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FieldEDITNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{fieldID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"translateName\": [],\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"type\": \"STRING\",\r\n  \"children\": [],\r\n  \"systemField\": false,\r\n  \"systemFieldName\": null,\r\n  \"schoolId\": \"5fe07e4fb064ca29931236a5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}entity-field",
+					"host": [
+						"{{CAMPUSURL}}entity-field"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NationalityADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var body=pm.response.json();\r",
+							"var id=body.id;\r",
+							"console.log(id);// kod doğruluk kontrolu\r",
+							"pm.collectionVariables.set(\"nationalityID\", id);\r",
+							"pm.collectionVariables.set(\"nationalityName\", body.name);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"translateName\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}nationality",
+					"host": [
+						"{{CAMPUSURL}}nationality"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NationalityADDNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{nationalityID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"translateName\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}nationality",
+					"host": [
+						"{{CAMPUSURL}}nationality"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NationalityEDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{nationalityID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"translateName\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}nationality",
+					"host": [
+						"{{CAMPUSURL}}nationality"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NationalityDELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}nationality/{{nationalityID}}",
+					"host": [
+						"{{CAMPUSURL}}nationality"
+					],
+					"path": [
+						"{{nationalityID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NationalityDELETENegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}nationality/{{nationalityID}}",
+					"host": [
+						"{{CAMPUSURL}}nationality"
+					],
+					"path": [
+						"{{nationalityID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NationalityEDITNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{nationalityID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"translateName\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}nationality",
+					"host": [
+						"{{CAMPUSURL}}nationality"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DiscoundsADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"discountID\", pm.response.json().id);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": null,\r\n  \"description\": \"{{$randomFullName}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"active\": true,\r\n  \"translateDescription\": [],\r\n  \"priority\": \"{{$randomInt}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}discounts",
+					"host": [
+						"{{CAMPUSURL}}discounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DiscoundsADDNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{discountID}}\",\r\n  \"description\": \"{{$randomFullName}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"active\": true,\r\n  \"translateDescription\": [],\r\n  \"priority\": \"{{$randomInt}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}discounts",
+					"host": [
+						"{{CAMPUSURL}}discounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DiscoundsEDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{discountID}}\",\r\n  \"description\": \"{{$randomFullName}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"active\": true,\r\n  \"translateDescription\": [],\r\n  \"priority\": \"{{$randomInt}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}discounts",
+					"host": [
+						"{{CAMPUSURL}}discounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DiscoundsDELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}discounts/{{discountID}}",
+					"host": [
+						"{{CAMPUSURL}}discounts"
+					],
+					"path": [
+						"{{discountID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DiscoundsDELETENegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}discounts/{{discountID}}",
+					"host": [
+						"{{CAMPUSURL}}discounts"
+					],
+					"path": [
+						"{{discountID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DiscoundsEDITNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{discountID}}\",\r\n  \"description\": \"{{$randomFullName}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"active\": true,\r\n  \"translateDescription\": [],\r\n  \"priority\": \"{{$randomInt}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}discounts",
+					"host": [
+						"{{CAMPUSURL}}discounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocationADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"LocationID\", pm.response.json().id);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"shortName\": \"{{$randomCurrencyCode}}\",\r\n  \"active\": true,\r\n  \"capacity\": \"540\",\r\n  \"type\": \"CLASS\",\r\n  \"school\": {\r\n    \"id\": \"5fe07e4fb064ca29931236a5\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}location",
+					"host": [
+						"{{CAMPUSURL}}location"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocationADDNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{LocationID}}\",\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"shortName\": \"{{$randomCurrencyCode}}\",\r\n  \"active\": true,\r\n  \"capacity\": \"540\",\r\n  \"type\": \"CLASS\",\r\n  \"school\": {\r\n    \"id\": \"5fe07e4fb064ca29931236a5\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}location",
+					"host": [
+						"{{CAMPUSURL}}location"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocationEDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{LocationID}}\",\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"shortName\": \"{{$randomCurrencyCode}}\",\r\n  \"active\": true,\r\n  \"capacity\": \"540\",\r\n  \"type\": \"CLASS\",\r\n  \"school\": {\r\n    \"id\": \"5fe07e4fb064ca29931236a5\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}location",
+					"host": [
+						"{{CAMPUSURL}}location"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocationDELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}location/{{LocationID}}",
+					"host": [
+						"{{CAMPUSURL}}location"
+					],
+					"path": [
+						"{{LocationID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocationDELETENegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}location/{{LocationID}}",
+					"host": [
+						"{{CAMPUSURL}}location"
+					],
+					"path": [
+						"{{LocationID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LocationEDITNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{LocationID}}\",\r\n  \"name\": \"{{$randomFullName}}\",\r\n  \"shortName\": \"{{$randomCurrencyCode}}\",\r\n  \"active\": true,\r\n  \"capacity\": \"540\",\r\n  \"type\": \"CLASS\",\r\n  \"school\": {\r\n    \"id\": \"5fe07e4fb064ca29931236a5\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}location",
+					"host": [
+						"{{CAMPUSURL}}location"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubjectCategoriesADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.collectionVariables.set(\"subjectCateID\", pm.response.json().id);\r",
+							"pm.collectionVariables.set(\"subjectCateName\", pm.response.json().name);\r",
+							"console.log(pm.response.json().id);\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": null,\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"active\": true,\r\n  \"translateName\": []\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}subject-categories",
+					"host": [
+						"{{CAMPUSURL}}subject-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubjectCategoriesADDNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{subjectCateID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"active\": true,\r\n  \"translateName\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}subject-categories",
+					"host": [
+						"{{CAMPUSURL}}subject-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubjectCategoriesEDIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{subjectCateID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"active\": true,\r\n  \"translateName\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}subject-categories",
+					"host": [
+						"{{CAMPUSURL}}subject-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubjectCategoriesDELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}subject-categories/{{subjectCateID}}",
+					"host": [
+						"{{CAMPUSURL}}subject-categories"
+					],
+					"path": [
+						"{{subjectCateID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubjectCategoriesDELETENegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}subject-categories/{{subjectCateID}}",
+					"host": [
+						"{{CAMPUSURL}}subject-categories"
+					],
+					"path": [
+						"{{subjectCateID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubjectCategoriesEDITNegative",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{subjectCateID}}\",\r\n  \"name\": \"{{$randomUserName}}\",\r\n  \"code\": \"{{$randomCountryCode}}\",\r\n  \"active\": true,\r\n  \"translateName\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{CAMPUSURL}}subject-categories",
+					"host": [
+						"{{CAMPUSURL}}subject-categories"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "countryID",
+			"value": ""
+		},
+		{
+			"key": "countryName",
+			"value": ""
+		},
+		{
+			"key": "documentsID",
+			"value": ""
+		},
+		{
+			"key": "countryIDbank",
+			"value": ""
+		},
+		{
+			"key": "fieldID",
+			"value": ""
+		},
+		{
+			"key": "fieldName",
+			"value": ""
+		},
+		{
+			"key": "bankID",
+			"value": ""
+		},
+		{
+			"key": "bankName",
+			"value": ""
+		},
+		{
+			"key": "nationalityID",
+			"value": ""
+		},
+		{
+			"key": "nationalityName",
+			"value": ""
+		},
+		{
+			"key": "subjectCateID",
+			"value": ""
+		},
+		{
+			"key": "subjectCateName",
+			"value": ""
+		},
+		{
+			"key": "bankIban",
+			"value": ""
+		},
+		{
+			"key": "discountID",
+			"value": ""
+		},
+		{
+			"key": "contryName",
+			"value": ""
+		},
+		{
+			"key": "LocationID",
+			"value": ""
+		}
+	]
+}
